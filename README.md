@@ -32,6 +32,12 @@ on android
 npm run android
 ```
 
+# Run unit test
+ 
+```bash
+npm test
+``` 
+
 
 # TODO
 - add e2e
