@@ -5,7 +5,7 @@ import {Location} from '../types/Location';
 import {ForecastResult} from '../types/Forecast';
 
 const useSearchLocation = (city: string) => {
-  const {isLoading, data} = useQuery(
+  const {isLoading, data, isError, refetch} = useQuery(
     ['searchLocation', city],
     () => searchLocation(city).then(res => res.data),
     {
@@ -15,14 +15,14 @@ const useSearchLocation = (city: string) => {
 
   const locations = data as Location[];
 
-  return {isLoading, data: locations};
+  return {isLoading, data: locations, isError, refetch};
 };
 
 const useGetForecast = (
   locationURL: string,
   currentHour = new Date().getHours().toString(),
 ) => {
-  const {isLoading, data, error} = useQuery(
+  const {isLoading, data, isError, refetch} = useQuery(
     ['getForecast', locationURL],
     () => getForecast(locationURL).then(res => res.data),
     {
@@ -41,7 +41,7 @@ const useGetForecast = (
         .slice(0, 5)) ||
     [];
 
-  return {isLoading, data: {forecastResult, nextFiveHours}, error};
+  return {isLoading, data: {forecastResult, nextFiveHours}, isError, refetch};
 };
 
 export {useSearchLocation, useGetForecast};

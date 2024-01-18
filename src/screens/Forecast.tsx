@@ -1,21 +1,27 @@
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useGetForecast} from '../services/useWeatherAPI';
-import {ActivityIndicator, Divider} from 'react-native-paper';
+import {Divider} from 'react-native-paper';
 import {ForecastWithImage} from '../components/ForecastWithImage';
 import {BaseScreen} from '../components/BaseScreen';
 import {RootStackParamList} from '../navigation/Root';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {HourForecast} from '../components/HourForecast';
+import {NetworkError} from '../components/NetworkError';
+import {ActivityIndicator} from '../components/ActivityIndicator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Forecast'>;
 
 const ForecastScreen = ({route}: Props) => {
-  const {data, isLoading} = useGetForecast(route.params.location.url);
+  const {data, isLoading, isError, refetch} = useGetForecast(
+    route.params.location.url,
+  );
 
   return (
     <BaseScreen edges={['left', 'right']}>
-      {isLoading && <ActivityIndicator />}
+      <ActivityIndicator isLoading={isLoading} />
+      <NetworkError isLoading={isLoading} isError={isError} refetch={refetch} />
+
       {!isLoading && (
         <>
           <View style={styles.rowCenter}>

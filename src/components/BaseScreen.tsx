@@ -7,13 +7,14 @@ type BaseScreenProps = PropsWithChildren<{edges?: Edges | undefined}>;
 
 const BaseScreen = ({children, edges}: BaseScreenProps) => {
   return (
-    <SafeAreaView style={styles.scrollView} edges={edges}>
-      <ScrollView>{children}</ScrollView>
+    <SafeAreaView style={styles.parent} edges={edges}>
+      <ScrollView style={styles.scrollView}>{children}</ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  parent: {flex: 1},
   scrollView: {flex: 1, paddingLeft: 10, paddingRight: 10},
 });
 
