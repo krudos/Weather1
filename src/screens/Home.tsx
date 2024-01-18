@@ -1,5 +1,5 @@
-import React from 'react';
-import {FlatList, Text} from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, StyleSheet, Text} from 'react-native';
 
 import {ActivityIndicator, Divider, Searchbar} from 'react-native-paper';
 import {useSearchLocation} from '../services/useWeatherAPI';
@@ -12,10 +12,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen = ({navigation}: Props) => {
-  const [searchQuery, setSearchQuery] = React.useState('guatemala');
-
+  const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearch = useDebounce(searchQuery, 500);
-
   const {data, isLoading} = useSearchLocation(debouncedSearch);
 
   return (
@@ -25,16 +23,10 @@ const HomeScreen = ({navigation}: Props) => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
-
       {isLoading && <ActivityIndicator />}
-
       <FlatList
         scrollEnabled={false}
-        contentContainerStyle={{
-          paddingLeft: 10,
-          paddingRight: 10,
-          marginTop: 10,
-        }}
+        contentContainerStyle={styles.contentView}
         ListEmptyComponent={<Text>No results</Text>}
         data={data}
         ItemSeparatorComponent={Divider}
@@ -49,5 +41,13 @@ const HomeScreen = ({navigation}: Props) => {
     </BaseScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  contentView: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 10,
+  },
+});
 
 export {HomeScreen};

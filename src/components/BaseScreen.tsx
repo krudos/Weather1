@@ -1,14 +1,20 @@
+import React from 'react';
 import {PropsWithChildren} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
+import {Edges, SafeAreaView} from 'react-native-safe-area-context';
 
-type BaseScreenProps = PropsWithChildren<{}>;
+type BaseScreenProps = PropsWithChildren<{edges?: Edges | undefined}>;
 
-const BaseScreen = ({children}: BaseScreenProps) => {
+const BaseScreen = ({children, edges}: BaseScreenProps) => {
   return (
-    <ScrollView style={{flex: 1, paddingLeft: 10, paddingRight: 10}}>
-      {children}
-    </ScrollView>
+    <SafeAreaView style={styles.scrollView} edges={edges}>
+      <ScrollView>{children}</ScrollView>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {flex: 1, paddingLeft: 10, paddingRight: 10},
+});
 
 export {BaseScreen};

@@ -1,25 +1,25 @@
 import React from 'react';
-import {FlatList, ScrollView, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useGetForecast} from '../services/useWeatherAPI';
 import {ActivityIndicator, Divider} from 'react-native-paper';
 import {ForecastWithImage} from '../components/ForecastWithImage';
 import {BaseScreen} from '../components/BaseScreen';
+import {RootStackParamList} from '../navigation/Root';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {HourForecast} from '../components/HourForecast';
 
-export interface ForecastWithImageProps {
-  icon: string;
-  condition: string;
-  temp_c: number;
-}
-const ForecastScreen = ({route}) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Forecast'>;
+
+const ForecastScreen = ({route}: Props) => {
   const {data, isLoading} = useGetForecast(route.params.location.url);
 
   return (
-    <BaseScreen>
+    <BaseScreen edges={['left', 'right']}>
       {isLoading && <ActivityIndicator />}
       {!isLoading && (
         <>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View>
+          <View style={styles.rowCenter}>
+            <View style={styles.fullView}>
               <Text>{data.forecastResult.location.name},</Text>
               <Text>{data.forecastResult.location.country}</Text>
             </View>
@@ -37,20 +37,7 @@ const ForecastScreen = ({route}) => {
             ItemSeparatorComponent={Divider}
             data={data.nextFiveHours}
             renderItem={({item}) => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-                key={item.time}>
-                <Text>{item.time.substring(11)}</Text>
-
-                <ForecastWithImage
-                  icon={item.condition.icon}
-                  condition={item.condition.text}
-                  temp_c={item.temp_c}
-                />
-              </View>
+              <HourForecast item={item} key={item.time} />
             )}
           />
         </>
@@ -58,5 +45,10 @@ const ForecastScreen = ({route}) => {
     </BaseScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  rowCenter: {flexDirection: 'row', alignItems: 'center'},
+  fullView: {flex: 1},
+});
 
 export {ForecastScreen};

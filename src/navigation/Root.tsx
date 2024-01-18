@@ -13,9 +13,20 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
-    <RootStack.Navigator>
-      <RootStack.Screen name="Home" component={HomeScreen} />
-      <RootStack.Screen name="Forecast" component={ForecastScreen} />
+    <RootStack.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+      }}>
+      <RootStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+      <RootStack.Screen
+        name="Forecast"
+        component={ForecastScreen}
+        options={({route}) => ({title: route.params.location.name})}
+      />
     </RootStack.Navigator>
   );
 };

@@ -1,25 +1,34 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {Image} from 'react-native';
-import {ForecastWithImageProps} from '../screens/Forecast';
+import {Text, View, Image, StyleSheet} from 'react-native';
 
-export const ForecastWithImage = ({
-  icon,
-  condition,
-  temp_c,
-}: ForecastWithImageProps) => {
+interface ForecastWithImageProps {
+  icon: string;
+  condition: string;
+  temp_c: number;
+}
+
+const ForecastWithImage = (props: ForecastWithImageProps) => {
+  const {icon, condition, temp_c} = props;
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={styles.rowView}>
       <Image
-        style={{width: 64, height: 64}}
+        style={styles.imageView}
         source={{
           uri: `https:${icon}`,
         }}
       />
-      <View style={{justifyContent: 'center'}}>
+      <View style={styles.textView}>
         <Text>{condition}</Text>
         <Text>{temp_c}°</Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  rowView: {flexDirection: 'row'},
+  imageView: {width: 64, height: 64},
+  textView: {justifyContent: 'center'},
+});
+
+export {ForecastWithImage};
