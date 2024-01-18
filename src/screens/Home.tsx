@@ -3,11 +3,11 @@ import {FlatList, StyleSheet, Text} from 'react-native';
 
 import {ActivityIndicator, Divider, Searchbar} from 'react-native-paper';
 import {useSearchLocation} from '../services/useWeatherAPI';
-import {useDebounce} from '@uidotdev/usehooks';
 import {LocationItem} from '../components/LocationItem';
 import {BaseScreen} from '../components/BaseScreen';
 import {RootStackParamList} from '../navigation/Root';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useDebounce} from 'usehooks-ts';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
