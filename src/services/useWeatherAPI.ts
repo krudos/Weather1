@@ -2,6 +2,7 @@ import {useQuery} from 'react-query';
 
 import {searchLocation, getForecast} from './weatherAPI';
 import {Location} from '../types/Location';
+import {ForecastResult} from '../types/Forecast';
 
 const useSearchLocation = (city: string) => {
   const {isLoading, data} = useQuery(
@@ -17,16 +18,30 @@ const useSearchLocation = (city: string) => {
   return {isLoading, data: locations};
 };
 
-const useGetForecast = (locationURL: string) => {
-  const getForecastQuery = useQuery(
+const useGetForecast = (
+  locationURL: string,
+  currentHour = new Date().getHours().toString(),
+) => {
+  const {isLoading, data, error} = useQuery(
     ['getForecast', locationURL],
-    () => getForecast(locationURL),
+    () => getForecast(locationURL).then(res => res.data),
     {
-      enabled: false,
+      enabled: !!locationURL && locationURL.length > 0,
     },
   );
 
-  return getForecastQuery;
+  const forecastResult = data as ForecastResult;
+
+  const nextFiveHours =
+    (forecastResult &&
+      forecastResult.forecast.forecastday
+        .map(forecastday => forecastday.hour)
+        .flat()
+        .filter(item => item.time.substring(11, 13) >= currentHour)
+        .slice(0, 5)) ||
+    [];
+
+  return {isLoading, data: {forecastResult, nextFiveHours}, error};
 };
 
 export {useSearchLocation, useGetForecast};

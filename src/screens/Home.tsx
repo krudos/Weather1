@@ -1,23 +1,25 @@
 import React from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, Text} from 'react-native';
 
 import {ActivityIndicator, Divider, Searchbar} from 'react-native-paper';
 import {useSearchLocation} from '../services/useWeatherAPI';
 import {useDebounce} from '@uidotdev/usehooks';
 import {LocationItem} from '../components/LocationItem';
-import {useNavigation} from '@react-navigation/native';
+import {BaseScreen} from '../components/BaseScreen';
+import {RootStackParamList} from '../navigation/Root';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const HomeScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+const HomeScreen = ({navigation}: Props) => {
   const [searchQuery, setSearchQuery] = React.useState('guatemala');
 
   const debouncedSearch = useDebounce(searchQuery, 500);
 
   const {data, isLoading} = useSearchLocation(debouncedSearch);
 
-  const navigation = useNavigation();
-
   return (
-    <View style={{flex: 1}}>
+    <BaseScreen>
       <Searchbar
         placeholder="Please enter the name of a city"
         onChangeText={setSearchQuery}
@@ -27,6 +29,12 @@ const HomeScreen = () => {
       {isLoading && <ActivityIndicator />}
 
       <FlatList
+        scrollEnabled={false}
+        contentContainerStyle={{
+          paddingLeft: 10,
+          paddingRight: 10,
+          marginTop: 10,
+        }}
         ListEmptyComponent={<Text>No results</Text>}
         data={data}
         ItemSeparatorComponent={Divider}
@@ -38,7 +46,7 @@ const HomeScreen = () => {
           />
         )}
       />
-    </View>
+    </BaseScreen>
   );
 };
 

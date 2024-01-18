@@ -14,23 +14,19 @@ interface LocationItemProps {
 const LocationItem = ({location, onPress}: LocationItemProps) => {
   const country = countryToAlpha2(location.country);
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={{
-          flexDirection: 'row',
-          paddingLeft: 10,
-          paddingRight: 10,
-          marginTop: 10,
-          marginBottom: 10,
-        }}>
-        <View style={{flex: 1}}>
-          <Text>Name: {location.name}</Text>
-          <Text>Region: {location.region || 'unknow'}</Text>
-          <Text>Country: {location.country}</Text>
-        </View>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          {country && <CountryFlag isoCode={country} size={25} />}
-        </View>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+      }}>
+      <View style={{flex: 1}}>
+        <Text>{location.name},</Text>
+        <Text>{location.country}</Text>
+      </View>
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        {country && <CountryFlag isoCode={country} size={25} />}
       </View>
     </TouchableOpacity>
   );
