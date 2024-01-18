@@ -26,7 +26,7 @@ const ForecastWithImage = (props: ForecastWithImageProps) => {
 };
 
 const styles = StyleSheet.create({
-  rowView: {flexDirection: 'row'},
+  rowView: {flexDirection: 'row', flex: 1},
   imageView: {width: 64, height: 64},
   textView: {justifyContent: 'center'},
 });

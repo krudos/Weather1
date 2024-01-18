@@ -43,7 +43,7 @@ npm test
 - add e2e
 - create a backend to avoid API keys bundle into the app
 - migrate to expo
-
+- add unit test to getNextFiveHours
 
 # Screenshots
 

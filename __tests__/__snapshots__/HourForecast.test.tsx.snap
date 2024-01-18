@@ -21,6 +21,7 @@ exports[`HourForecast renders correctly 1`] = `
   <View
     style={
       {
+        "flex": 1,
         "flexDirection": "row",
       }
     }
